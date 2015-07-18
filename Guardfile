@@ -41,6 +41,13 @@ guard :minitest, spring: true, all_on_start: false do
     resource_tests('users') +
     ['test/integration/microposts_interface_test.rb']
   end
+
+  watch(%r{app/mailers/*}) do
+    resource_tests('users')
+  end
+  watch(%r{^app/mailers/(.*?)_mailer\.rb$}) do |matches|
+    resource_tests(matches[1])
+  end
 end
 
 # Returns the integration tests corresponding to the given resource.
