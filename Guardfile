@@ -45,8 +45,10 @@ guard :minitest, spring: true, all_on_start: false do
   watch(%r{app/mailers/*}) do
     resource_tests('users')
   end
+
   watch(%r{^app/mailers/(.*?)_mailer\.rb$}) do |matches|
-    resource_tests(matches[1])
+    resource_tests(matches[1]) +
+    ['test/mailers/previews/*_preview.rb']
   end
 end
 
