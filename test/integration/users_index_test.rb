@@ -28,4 +28,14 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     get users_path
     assert_select 'a', text: 'delete', count: 0
   end
+
+  test 'should index only activated users' do
+    active_user, inactive_user = User.first(2)
+    inactive_user.update(activated: false)
+
+    log_in_as(active_user)
+
+    get users_path
+    assert_select 'a[href=?]', user_path(inactive_user), count: 0
+  end
 end
